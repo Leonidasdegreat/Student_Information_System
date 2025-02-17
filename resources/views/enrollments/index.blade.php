@@ -57,94 +57,9 @@
     </div>
 </div>
 
-<!-- Add Enrollment Modal -->
-<div class="modal fade" id="addEnrollmentModal" tabindex="-1" aria-labelledby="addEnrollmentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addEnrollmentModalLabel">Add Enrollment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('enrollments.store') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="student_id" class="form-label">Search Student</label>
-                        <select class="form-select select2" id="student_id" name="student_id" required>
-                            <option value="">Search and select a student...</option>
-                            @foreach($students as $student)
-                                <option value="{{ $student->id }}">{{ $student->id }} - {{ $student->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+@include('modals.addEnrollmentModal') <!-- Add Modal -->
+@include('modals.editEnrollmentModal') <!-- Edit Modal -->
 
-                    <div class="mb-3">
-                        <label for="subject_id" class="form-label">Search Subject</label>
-                        <select class="form-select select2" id="subject_id" name="subject_id" required>
-                            <option value="">Search and select a subject...</option>
-                            @foreach($subjects as $subject)
-                                <option value="{{ $subject->id }}">{{ $subject->id }} - {{ $subject->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="enrollment_date" class="form-label">Enrollment Date</label>
-                        <input type="date" class="form-control" name="enrollment_date" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-success">Add Enrollment</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit Enrollment Modal -->
-<div class="modal fade" id="editEnrollmentModal" tabindex="-1" aria-labelledby="editEnrollmentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editEnrollmentModalLabel">Edit Enrollment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editEnrollmentForm" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" name="id" id="edit_id">
-                    
-                    <div class="mb-3">
-                        <label for="edit_student_id" class="form-label">Search Student</label>
-                        <select class="form-select select2" name="student_id" id="edit_student_id" required>
-                            @foreach($students as $student)
-                                <option value="{{ $student->id }}">{{ $student->id }} - {{ $student->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="edit_subject_id" class="form-label">Search Subject</label>
-                        <select class="form-select select2" name="subject_id" id="edit_subject_id" required>
-                            @foreach($subjects as $subject)
-                                <option value="{{ $subject->id }}">{{ $subject->id }} - {{ $subject->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="edit_enrollment_date" class="form-label">Enrollment Date</label>
-                        <input type="date" class="form-control" name="enrollment_date" id="edit_enrollment_date" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-warning">Update Enrollment</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- JavaScript for Handling Edit Modal -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const editButtons = document.querySelectorAll(".edit-btn");
@@ -175,9 +90,5 @@ $(document).ready(function() {
 });
 </script>
 
-<!-- Include Select2 CSS and JS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
 @endsection

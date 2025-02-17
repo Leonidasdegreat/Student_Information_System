@@ -55,60 +55,11 @@
     </div>
 </div>
 
-<!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Subject</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editForm" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group mb-3">
-                        <label for="edit-name" class="form-label">Name</label>
-                        <input type="text" name="name" id="edit-name" class="form-control" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="edit-code" class="form-label">Code</label>
-                        <input type="text" name="code" id="edit-code" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Include Add Subject Modal -->
+@include('modals.Add_subject_modal')
 
-<!-- Add Subject Modal -->
-<div class="modal fade" id="addSubjectModal" tabindex="-1" aria-labelledby="addSubjectModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addSubjectModalLabel">Add Subject</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('subjects.store') }}" method="POST">
-                    @csrf
-                    <div class="form-group mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" name="name" id="name" class="form-control" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="code" class="form-label">Code</label>
-                        <input type="text" name="code" id="code" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Include Edit Subject Modal -->
+@include('modals.Edit_subject_modal')
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

@@ -9,28 +9,26 @@ class StudentController extends Controller
 {
     // Display a listing of students
     public function index(Request $request)
-{
-    $query = Student::query();
+    {
+        $query = Student::query();
 
-    if ($request->has('search')) {
-        $search = $request->input('search');
-        $query->where('id', 'like', "%{$search}%")
-              ->orWhere('name', 'like', "%{$search}%")
-              ->orWhere('email', 'like', "%{$search}%")
-              ->orWhere('address', 'like', "%{$search}%")
-              ->orWhere('age', 'like', "%{$search}%");
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('id', 'like', "%{$search}%")
+                  ->orWhere('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%")
+                  ->orWhere('age', 'like', "%{$search}%");
+        }
+
+        $students = $query->get();
+
+        if ($request->ajax()) {
+            return response()->json($students);
+        }
+
+        return view('students.index', compact('students'));
     }
-
-    $students = $query->get();
-
-    if ($request->ajax()) {
-        return response()->json($students);
-    }
-
-    return view('students.index', compact('students'));
-}
-
-    
 
     // Show the form for creating a new student
     public function create()
@@ -41,16 +39,27 @@ class StudentController extends Controller
     // Store a newly created student in the database
     public function store(Request $request)
     {
+        // Validate the incoming data
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:students',
-            'address' => 'required',
-            'age'=> 'required',
+            'email' => 'required|email|unique:students,email',
+            'name' => 'required|string',
+            'address' => 'required|string',
+            'age' => 'required|integer',
         ]);
 
-        Student::create($request->all());
-        return redirect()->route('students.index')->with('success', 'Student created successfully.');
+        // Create new student if validation passes
+        Student::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'address' => $request->address,
+            'age' => $request->age,
+        ]);
+
+        return redirect()->route('students.index');
     }
+
+
+
 
     // Display the specified student
     public function show(Student $student)
@@ -71,14 +80,16 @@ class StudentController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:students,email,' . $student->id,
             'address' => 'required',
-            'age'=> 'required',
+            'age' => 'required',
+        ], [
+            'email.unique' => 'The email has already been taken.' // Custom error message
         ]);
 
+        // Update the student with the validated request data
         $student->update($request->all());
+
         return redirect()->route('students.index')->with('success', 'Student updated successfully.');
     }
-
-    
 
     // Remove the specified student from the database
     public function destroy(Student $student)
