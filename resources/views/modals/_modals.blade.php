@@ -23,8 +23,19 @@
                         <input type="text" name="address" id="edit-address" class="form-control" required>
                     </div>
                     <div class="form-group mb-3">
+                        <input type="password" name="password" placeholder="Password">
+                        <input type="password" name="password_confirmation" placeholder="Confirm Password">
+                    </div>    
+                    <div class="form-group mb-3">
                         <label for="edit-age" class="form-label">Age</label>
                         <input type="number" name="age" id="edit-age" class="form-control" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="edit-role" class="form-label">Role</label>
+                        <select name="role" id="edit-role" class="form-control" required>
+                            <option value="student">Student</option>
+                            <option value="admin">Admin</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -59,12 +70,23 @@
                         @endif
                     </div>
                     <div class="form-group mb-3">
+                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
+                    </div> 
+                    <div class="form-group mb-3">
                         <label for="address" class="form-label">Address</label>
                         <input type="text" name="address" id="address" class="form-control" required>
                     </div>
                     <div class="form-group mb-3">
                         <label for="age" class="form-label">Age</label>
                         <input type="number" name="age" id="age" class="form-control" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select name="role" id="role" class="form-control" required>
+                            <option value="student">Student</option>
+                            <option value="admin">Admin</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -73,5 +95,3 @@
         </div>
     </div>
 </div>
-
-

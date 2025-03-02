@@ -16,19 +16,45 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
+        if (Auth::check()) {
+            return $this->redirectUser(Auth::user()); // Use a helper function
+        }
+
         return view('auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $credentials = $request->only('email', 'password');
 
-        $request->session()->regenerate();
+        // Attempt to authenticate as a user (admin)
+        if (Auth::guard('web')->attempt($credentials)) {
+            $request->session()->regenerate();
+            return $this->redirectUser(Auth::guard('web')->user());
+        }
 
-        return redirect()->intended(route('students.index'));
+        // Attempt to authenticate as a student
+        if (Auth::guard('student')->attempt($credentials)) {
+            $request->session()->regenerate();
+            return $this->redirectUser(Auth::guard('student')->user());
+        }
+
+        logger('Attempting login with credentials:', $credentials);
+        
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+
+    private function redirectUser($user): RedirectResponse
+    {
+        if ($user->role === 'student') {
+            return redirect()->route('studentviews.index');
+        } elseif ($user->role === 'admin') {
+            return redirect()->route('students.index');
+        }
+
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -36,12 +62,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        Auth::logout(); // Logout the user
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/'); // Redirect to homepage after logout
     }
+
 }

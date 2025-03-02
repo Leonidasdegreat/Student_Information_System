@@ -15,9 +15,11 @@ return new class extends Migration
         $table->id();
         $table->string('name');
         $table->string('email')->unique();
+        $table->string('password');
         $table->string('address');
+        $table->string('role');
         $table->integer('age');
-        $table->timestamps();
+        $table->timestamps(); // Adds created_at and updated_at columns
     });
 }
 

@@ -23,7 +23,29 @@ class PasswordController extends Controller
         $request->user()->update([
             'password' => Hash::make($validated['password']),
         ]);
+        
 
         return back()->with('status', 'password-updated');
     }
+    public function store(Request $request)
+{
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => ['required', 'confirmed', Password::defaults()],
+    ]);
+
+    $status = Password::broker('students')->reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($student, $password) {
+            $student->forceFill([
+                'password' => Hash::make($password),
+            ])->save();
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+        ? redirect()->route('login')->with('status', __($status))
+        : back()->withErrors(['email' => __($status)]);
+}
 }

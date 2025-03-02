@@ -18,6 +18,7 @@ class StudentController extends Controller
                   ->orWhere('name', 'like', "%{$search}%")
                   ->orWhere('email', 'like', "%{$search}%")
                   ->orWhere('address', 'like', "%{$search}%")
+                  ->orWhere('role', 'like', "%{$search}%")
                   ->orWhere('age', 'like', "%{$search}%");
         }
 
@@ -42,8 +43,10 @@ class StudentController extends Controller
         // Validate the incoming data
         $request->validate([
             'email' => 'required|email|unique:students,email',
+            'password' => 'required|string|min:6|confirmed', // Password validation
             'name' => 'required|string',
             'address' => 'required|string',
+            'role' => 'required|in:student,admin', // Ensure only valid roles
             'age' => 'required|integer',
         ]);
 
@@ -51,7 +54,9 @@ class StudentController extends Controller
         Student::create([
             'name' => $request->name,
             'email' => $request->email,
+            'password' => $request->password, // Automatically hashed by the model
             'address' => $request->address,
+            'role' => $request->role,
             'age' => $request->age,
         ]);
 
@@ -79,12 +84,19 @@ class StudentController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:students,email,' . $student->id,
+            'password' => 'nullable|string|min:6|confirmed', // Password optional on update
             'address' => 'required',
+            'role' => 'required|in:student,admin', // Ensure only valid roles
             'age' => 'required',
         ], [
             'email.unique' => 'The email has already been taken.' // Custom error message
         ]);
-
+        // Update the student with the validated request data
+        $data = $request->except('password');
+        // Only update password if provided
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
         // Update the student with the validated request data
         $student->update($request->all());
 

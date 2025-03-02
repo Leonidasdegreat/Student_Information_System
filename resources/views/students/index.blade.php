@@ -26,6 +26,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Address</th>
+                        <th>Role</th>
                         <th>Age</th>
                         <th>Actions</th>
                     </tr>
@@ -37,6 +38,7 @@
                             <td>{{ $student->name }}</td>
                             <td>{{ $student->email }}</td>
                             <td>{{ $student->address }}</td>
+                            <td>{{ $student->role }}</td>
                             <td>{{ $student->age }}</td>
                             <td>
                                 <!-- Edit Button -->
@@ -44,7 +46,8 @@
                                         data-id="{{ $student->id }}" 
                                         data-name="{{ $student->name }}" 
                                         data-email="{{ $student->email }}" 
-                                        data-address="{{ $student->address }}" 
+                                        data-address="{{ $student->address }}"
+                                        data-role="{{ $student->role }}"
                                         data-age="{{ $student->age }}" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#editModal">
@@ -78,11 +81,13 @@
                 const studentName = this.getAttribute('data-name');
                 const studentEmail = this.getAttribute('data-email');
                 const studentAddress = this.getAttribute('data-address');
+                const studentRole = this.getAttribute('data-role');
                 const studentAge = this.getAttribute('data-age');
 
                 document.getElementById('edit-name').value = studentName;
                 document.getElementById('edit-email').value = studentEmail;
                 document.getElementById('edit-address').value = studentAddress;
+                document.getElementById('edit-role').value = studentRole;
                 document.getElementById('edit-age').value = studentAge;
                 document.getElementById('editForm').action = `/students/${studentId}`;
             });
@@ -106,13 +111,10 @@
         // Close error message when clicking anywhere on the screen or modal
         document.addEventListener('click', function (e) {
             const errorMessage = document.getElementById('error-message');
-            // Check if the click is outside the error message and modal
             if (!errorMessage.contains(e.target) && !document.getElementById('addStudentModal').contains(e.target)) {
                 errorMessage.style.display = 'none';
             }
         });
-
     });
 </script>
-
 @endsection

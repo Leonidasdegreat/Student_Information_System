@@ -40,8 +40,8 @@
                                 <td>{{ $enrollment->student->name }}</td>
                                 <td>{{ $enrollment->subject->name }}</td>
                                 <td>
-                                    <span class="badge {{ $enrollment->grade ? ($enrollment->grade->grade >= 3.0 ? 'bg-success' : 'bg-danger') : 'bg-secondary' }}">
-                                        {{ $enrollment->grade ? $enrollment->grade->grade : 'N/A' }}
+                                    <span class="badge {{ $enrollment->grades->isNotEmpty() ? ($enrollment->grades->first()->grade >= 3.0 ? 'bg-success' : 'bg-danger') : 'bg-secondary' }}">
+                                        {{ $enrollment->grades->isNotEmpty() ? $enrollment->grades->first()->grade : 'N/A' }}
                                     </span>
                                 </td>
                                 <td class="text-center">
@@ -49,15 +49,14 @@
                                         <i class="bi bi-pencil-square"></i> Edit
                                     </button>
 
-                                    @if ($enrollment->grade)
-                                    <form action="{{ route('grades.destroy', $enrollment->grade->id) }}" method="POST" class="d-inline-block">
+                                    @if ($enrollment->grades->isNotEmpty())
+                                    <form action="{{ route('grades.destroy', $enrollment->grades->first()->id) }}" method="POST" class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to remove this grade?');">
                                             <i class="bi bi-trash"></i> Remove
                                         </button>
                                     </form>
-
                                     @endif
                                 </td>
                             </tr>
@@ -83,7 +82,7 @@
                                                             $gradeOptions = [1.0, 1.25, 1.50, 1.75, 2.0, 2.25, 2.50, 2.75, 3.0, 3.25, 3.50, 3.75, 4.0, 4.25, 4.50, 4.75, 5.0];
                                                         @endphp
                                                         @foreach ($gradeOptions as $grade)
-                                                            <option value="{{ $grade }}" {{ $enrollment->grade && $enrollment->grade->grade == $grade ? 'selected' : '' }}>
+                                                            <option value="{{ $grade }}" {{ $enrollment->grades->isNotEmpty() && $enrollment->grades->first()->grade == $grade ? 'selected' : '' }}>
                                                                 {{ $grade }}
                                                             </option>
                                                         @endforeach

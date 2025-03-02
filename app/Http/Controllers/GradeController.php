@@ -16,7 +16,7 @@ class GradeController extends Controller
         $subjects = Subject::all();
         $selectedSubject = $request->input('subject_id');
 
-        $enrollments = Enrollment::with('student', 'subject', 'grade')
+        $enrollments = Enrollment::with('student', 'subject', 'grades')
             ->when($selectedSubject, function ($query) use ($selectedSubject) {
                 return $query->where('subject_id', $selectedSubject);
             })
