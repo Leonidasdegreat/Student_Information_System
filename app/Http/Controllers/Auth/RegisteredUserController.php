@@ -58,6 +58,7 @@ class RegisteredUserController extends Controller
                 'role' => $request->role,
                 'address' => $request->address,
                 'age' => $request->age,
+                'email_verified_at' => now(), // Automatically verify email
             ]);
         } else {
             $user = User::create([
