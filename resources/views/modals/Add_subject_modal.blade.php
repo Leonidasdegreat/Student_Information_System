@@ -18,7 +18,7 @@
                         <label for="code" class="form-label">Code</label>
                         <input type="text" name="code" id="code" class="form-control" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </form>
             </div>

@@ -43,28 +43,26 @@ class StudentController extends Controller
         // Validate the incoming data
         $request->validate([
             'email' => 'required|email|unique:students,email',
-            'password' => 'required|string|min:6|confirmed', // Password validation
+            'password' => 'required|string|min:6|confirmed',
             'name' => 'required|string',
             'address' => 'required|string',
-            'role' => 'required|in:student,admin', // Ensure only valid roles
+            'role' => 'required|in:student,admin',
             'age' => 'required|integer',
         ]);
 
-        // Create new student if validation passes
+        // Create new student with auto-verified email
         Student::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password, // Automatically hashed by the model
+            'password' => bcrypt($request->password),
             'address' => $request->address,
             'role' => $request->role,
             'age' => $request->age,
+            'email_verified_at' => now(), // Automatically verify email
         ]);
 
-        return redirect()->route('students.index');
+        return redirect()->route('students.index')->with('success', 'Student added and auto-verified.');
     }
-
-
-
 
     // Display the specified student
     public function show(Student $student)
@@ -84,21 +82,22 @@ class StudentController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:students,email,' . $student->id,
-            'password' => 'nullable|string|min:6|confirmed', // Password optional on update
+            'password' => 'nullable|string|min:6|confirmed',
             'address' => 'required',
-            'role' => 'required|in:student,admin', // Ensure only valid roles
+            'role' => 'required|in:student,admin',
             'age' => 'required',
         ], [
-            'email.unique' => 'The email has already been taken.' // Custom error message
+            'email.unique' => 'The email has already been taken.'
         ]);
-        // Update the student with the validated request data
+
+        // Prepare data for update
         $data = $request->except('password');
-        // Only update password if provided
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->password);
         }
-        // Update the student with the validated request data
-        $student->update($request->all());
+
+        // Update the student
+        $student->update($data);
 
         return redirect()->route('students.index')->with('success', 'Student updated successfully.');
     }

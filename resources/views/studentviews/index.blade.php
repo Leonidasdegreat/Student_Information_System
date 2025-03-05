@@ -1,5 +1,5 @@
 @extends('layouts.student')
-
+@section('title', 'Students Dashboard')
 @section('content_student')
 
 {{-- Include Bootstrap --}}

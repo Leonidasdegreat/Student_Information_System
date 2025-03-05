@@ -8,14 +8,12 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\StudentViewsController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 
 
@@ -27,8 +25,11 @@ Route::middleware(['auth:student'])->group(function () {
 });
 
 
+
+
 Route::middleware(['auth:web'])->group(function () {
 
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->middleware(['auth', 'verified']);
 Route::resource('students', StudentController::class)->middleware(['auth', 'verified']);
 Route::resource('subjects', SubjectController::class)->middleware(['auth', 'verified']);
 Route::resource('enrollments', EnrollmentController::class)->middleware(['auth', 'verified']);
@@ -40,11 +41,7 @@ Route::post('/logout', [AuthController::class, 'destroy'])->name('logout')->midd
 
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+
 
 
 

@@ -1,5 +1,5 @@
 @extends('layouts.Dash')
-
+@section('title', 'Grades Dashboard')
 @section('content')
 <div class="container mt-4">
     <h1 class="mb-4 text-primary fw-bold">Grades</h1>
@@ -50,53 +50,19 @@
                                     </button>
 
                                     @if ($enrollment->grades->isNotEmpty())
-                                    <form action="{{ route('grades.destroy', $enrollment->grades->first()->id) }}" method="POST" class="d-inline-block">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to remove this grade?');">
-                                            <i class="bi bi-trash"></i> Remove
-                                        </button>
-                                    </form>
+                                    <!-- Delete Grade Button with Modal Trigger -->
+<button class="btn btn-danger btn-sm delete-grade-btn" 
+        data-id="{{ $enrollment->grades->first()->id }}" 
+        data-student="{{ $enrollment->student->name }}" 
+        data-bs-toggle="modal" 
+        data-bs-target="#deleteGradeModal">
+    <i class="bi bi-trash"></i> Remove
+</button>
                                     @endif
                                 </td>
                             </tr>
 
-                            <!-- Edit Grade Modal -->
-                            <div class="modal fade" id="editGradeModal{{ $enrollment->id }}" tabindex="-1" aria-labelledby="editGradeModalLabel{{ $enrollment->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-warning text-dark">
-                                            <h5 class="modal-title fw-bold" id="editGradeModalLabel{{ $enrollment->id }}">
-                                                Edit Grade for {{ $enrollment->student->name }}
-                                            </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <form action="{{ route('grades.update', $enrollment->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="modal-body">
-                                                <div class="mb-3">
-                                                    <label for="grade" class="form-label">Grade</label>
-                                                    <select name="grade" id="grade" class="form-select">
-                                                        @php
-                                                            $gradeOptions = [1.0, 1.25, 1.50, 1.75, 2.0, 2.25, 2.50, 2.75, 3.0, 3.25, 3.50, 3.75, 4.0, 4.25, 4.50, 4.75, 5.0];
-                                                        @endphp
-                                                        @foreach ($gradeOptions as $grade)
-                                                            <option value="{{ $grade }}" {{ $enrollment->grades->isNotEmpty() && $enrollment->grades->first()->grade == $grade ? 'selected' : '' }}>
-                                                                {{ $grade }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         @endforeach
                     </tbody>
                 </table>
@@ -104,4 +70,25 @@
         </div>
     </div>
 </div>
+
+@include('modals.deletemodal')
+@include('modals.editgrade')
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteGradeButtons = document.querySelectorAll(".delete-grade-btn");
+        const gradeStudentName = document.getElementById("gradeStudentName");
+        const deleteGradeForm = document.getElementById("deleteGradeForm");
+
+        deleteGradeButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const gradeId = this.getAttribute("data-id");
+                const studentName = this.getAttribute("data-student");
+
+                gradeStudentName.textContent = studentName;
+                deleteGradeForm.action = `/grades/${gradeId}`;
+            });
+        });
+    });
+</script>
 @endsection

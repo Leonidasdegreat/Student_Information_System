@@ -23,7 +23,7 @@
  
 
   <title>
-    Student Dashboard
+  @yield('title', 'Student Information System')
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700,900" />
@@ -58,7 +58,7 @@
         </li>      
         
         <div class="sidenav-footer position-absolute w-100 bottom-0">
-    <li class="nav-item">
+       <li class="nav-item">
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="nav-link text-dark d-flex align-items-center" style="border: none; background: none; cursor: pointer; font-size: 1.1rem;">

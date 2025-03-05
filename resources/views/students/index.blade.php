@@ -1,20 +1,22 @@
 @extends('layouts.Dash')
-
+@section('title', 'Students Dashboard')
 @section('content')
 <div class="container">
     <h1 class="mb-4">Students</h1>
     
     <!-- Add Student Button -->
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add Student</button>
+    <button class="btn btn-primary mb-3 px-4 py-2 fw-bold rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+    <span> &#65122;</span> Add Student
+    </button>
 
     <!-- Search Form -->
-    <div class="mb-3">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search for students...">
+    <div class="mb-3 position-relative">
+        <input type="text" id="searchInput" class="form-control p-3 rounded shadow-sm" placeholder="🔍 Search for students...">
     </div>
 
     <!-- Error Message Display -->
-    <div id="error-message" class="alert alert-danger" style="display:none;">
-        The email address is already registered.
+    <div id="error-message" class="alert alert-danger text-center fw-bold rounded shadow-sm fade show d-none">
+        ⚠️ The email address is already registered.
     </div>
 
     <div class="card shadow">
@@ -54,12 +56,15 @@
                                     Edit
                                 </button>
 
-                                <!-- Delete Form -->
-                                <form action="{{ route('students.destroy', $student->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this student?')">Delete</button>
-                                </form>
+                                   
+                                    <button class="btn btn-danger btn-sm delete-btn" 
+                                            data-id="{{ $student->id }}" 
+                                            data-name="{{ $student->name }}" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#deleteModal">
+                                        Delete
+                                    </button>
+                                
                             </td>
                         </tr>
                     @endforeach
@@ -71,6 +76,7 @@
 
 <!-- Include the Modal Partial -->
 @include('modals._modals')
+@include('modals.deletemodal')
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -117,4 +123,20 @@
         });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const studentId = this.getAttribute('data-id');
+                const studentName = this.getAttribute('data-name');
+
+                document.getElementById('delete-student-name').textContent = studentName;
+                document.getElementById('deleteForm').action = `/students/${studentId}`;
+            });
+        });
+    });
+</script>
+
 @endsection
