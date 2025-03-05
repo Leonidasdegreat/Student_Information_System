@@ -51,13 +51,13 @@
 
                                     @if ($enrollment->grades->isNotEmpty())
                                     <!-- Delete Grade Button with Modal Trigger -->
-<button class="btn btn-danger btn-sm delete-grade-btn" 
-        data-id="{{ $enrollment->grades->first()->id }}" 
-        data-student="{{ $enrollment->student->name }}" 
-        data-bs-toggle="modal" 
-        data-bs-target="#deleteGradeModal">
-    <i class="bi bi-trash"></i> Remove
-</button>
+                                    <button class="btn btn-danger btn-sm delete-grade-btn" 
+                                            data-id="{{ $enrollment->grades->first()->id }}" 
+                                            data-student="{{ $enrollment->student->name }}" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#deleteGradeModal">
+                                        <i class="bi bi-trash"></i> Remove
+                                    </button>
                                     @endif
                                 </td>
                             </tr>

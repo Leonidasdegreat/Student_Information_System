@@ -16,9 +16,9 @@ return new class extends Migration
         $table->string('name');
         $table->string('email')->unique();
         $table->string('password');
-        $table->string('address');
+        $table->string('address')->nullable(); // Make address nullable
+        $table->integer('age')->nullable();    // Make age nullable
         $table->string('role');
-        $table->integer('age');
         $table->timestamps(); // Adds created_at and updated_at columns
     });
 }
