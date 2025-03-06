@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Http\Requests\StoreSubjectRequest;
+use App\Http\Requests\UpdateSubjectRequest;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -21,16 +23,18 @@ class SubjectController extends Controller
     }
 
     // Store a newly created subject in the database
-    public function store(Request $request)
+    public function store(StoreSubjectRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'code' => 'required|unique:subjects',
-        ]);
+        $existingSubject = Subject::where('code', $request->code)->first();
 
-        Subject::create($request->all());
+        if ($existingSubject) {
+            return redirect()->back()->withInput()->with('error', 'Subject code already exists.');
+        }
+
+        Subject::create($request->validated());
         return redirect()->route('subjects.index')->with('success', 'Subject created successfully.');
     }
+
 
     // Display the specified subject
     public function show(Subject $subject)
@@ -45,22 +49,29 @@ class SubjectController extends Controller
     }
 
     // Update the specified subject in the database
-    public function update(Request $request, Subject $subject)
+    public function update(UpdateSubjectRequest $request, Subject $subject)
     {
-        $request->validate([
-            'name' => 'required',
-            'code' => 'required|unique:subjects,code,' . $subject->id,
-        ]);
+        // Check if the new code is already taken by another subject
+        $existingSubject = Subject::where('code', $request->code)->where('id', '!=', $subject->id)->first();
 
-        $subject->update($request->all());
+        if ($existingSubject) {
+            return redirect()->back()->with('error', 'Subject code already exists.');
+        }
+
+        $subject->update($request->validated());
         return redirect()->route('subjects.index')->with('success', 'Subject updated successfully.');
     }
 
     // Remove the specified subject from the database
     public function destroy(Subject $subject)
     {
+        // Check if the subject has enrolled students
+        if ($subject->students()->exists()) {
+            return redirect()->route('subjects.index')->with('error', 'Cannot delete subject. There are enrolled students.');
+        }
+
         $subject->delete();
         return redirect()->route('subjects.index')->with('success', 'Subject deleted successfully.');
     }
-    
+
 }

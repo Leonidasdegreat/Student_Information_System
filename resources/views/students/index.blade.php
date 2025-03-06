@@ -1,12 +1,13 @@
 @extends('layouts.Dash')
 @section('title', 'Students Dashboard')
 @section('content')
+
 <div class="container">
     <h1 class="mb-4">Students</h1>
     
     <!-- Add Student Button -->
     <button class="btn btn-primary mb-3 px-4 py-2 fw-bold rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#addStudentModal">
-    <span> &#65122;</span> Add Student
+        <span> &#65122;</span> Add Student
     </button>
 
     <!-- Search Form -->
@@ -15,10 +16,13 @@
     </div>
 
     <!-- Error Message Display -->
-    <div id="error-message" class="alert alert-danger text-center fw-bold rounded shadow-sm fade show d-none">
-        ⚠️ The email address is already registered.
+@if ($errors->has('email'))
+    <div id="error-message" class="alert alert-danger text-center fw-bold rounded shadow-sm fade show">
+        ⚠️ {{ $errors->first('email') }}
     </div>
+@endif
 
+    
     <div class="card shadow">
         <div class="card-body">
             <table class="table table-striped table-bordered" id="studentsTable">
@@ -56,15 +60,14 @@
                                     Edit
                                 </button>
 
-                                   
-                                    <button class="btn btn-danger btn-sm delete-btn" 
-                                            data-id="{{ $student->id }}" 
-                                            data-name="{{ $student->name }}" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#deleteModal">
-                                        Delete
-                                    </button>
-                                
+                                <!-- Delete Button -->
+                                <button class="btn btn-danger btn-sm delete-btn" 
+                                        data-id="{{ $student->id }}" 
+                                        data-name="{{ $student->name }}" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#deleteModal">
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     @endforeach
@@ -108,25 +111,16 @@
             });
         });
 
-        // Check for email error and show message
-        @if ($errors->has('email'))
+        // Close error message after 5 seconds
+        setTimeout(() => {
             const errorMessage = document.getElementById('error-message');
-            errorMessage.style.display = 'block';
-        @endif
-
-        // Close error message when clicking anywhere on the screen or modal
-        document.addEventListener('click', function (e) {
-            const errorMessage = document.getElementById('error-message');
-            if (!errorMessage.contains(e.target) && !document.getElementById('addStudentModal').contains(e.target)) {
+            if (errorMessage) {
                 errorMessage.style.display = 'none';
             }
-        });
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
+        }, 5000);
+
+        // Delete student modal logic
         const deleteButtons = document.querySelectorAll('.delete-btn');
-        
         deleteButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const studentId = this.getAttribute('data-id');

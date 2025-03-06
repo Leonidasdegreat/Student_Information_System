@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Enrollment;
 use App\Models\Grade;
 use App\Models\Subject;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+
 
 class GradeController extends Controller
 {
@@ -25,23 +26,31 @@ class GradeController extends Controller
         return view('grades.index', compact('enrollments', 'subjects', 'selectedSubject'));
     }
 
-    // Update a student's grade via modal
-    public function update(Request $request, $enrollmentId)
+    // Store a new grade
+    public function store(StoreGradeRequest $request)
     {
-        $request->validate([
-            'grade' => 'nullable|numeric|min:0|max:100',
+        Grade::create([
+            'enrollment_id' => $request->enrollment_id,
+            'grade' => $request->grade,
         ]);
 
+        return redirect()->route('grades.index')->with('success', 'Grade added successfully.');
+    }
+
+    // Update a student's grade via modal
+    public function update(UpdateGradeRequest $request, $enrollmentId)
+    {
         $enrollment = Enrollment::findOrFail($enrollmentId);
 
-        // Update or create the grade
         Grade::updateOrCreate(
             ['enrollment_id' => $enrollmentId],
-            ['grade' => $request->input('grade')]
+            ['grade' => $request->grade]
         );
 
         return redirect()->route('grades.index')->with('success', 'Grade updated successfully.');
     }
+
+    // Delete a grade
     public function destroy($id)
     {
         Log::info('Attempting to delete grade with ID: ' . $id);
@@ -59,6 +68,4 @@ class GradeController extends Controller
 
         return redirect()->route('grades.index')->with('success', 'Grade removed successfully.');
     }
-
-    
 }

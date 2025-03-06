@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Http\Requests\StoreStudentRequest;
+use App\Http\Requests\UpdateStudentRequest;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -37,18 +39,14 @@ class StudentController extends Controller
         return view('students.create');
     }
 
-    // Store a newly created student in the database
-    public function store(Request $request)
+    public function store(StoreStudentRequest $request)
     {
-        // Validate the incoming data
-        $request->validate([
-            'email' => 'required|email|unique:students,email',
-            'password' => 'required|string|min:6|confirmed',
-            'name' => 'required|string',
-            'address' => 'required|string',
-            'role' => 'required|in:student,admin',
-            'age' => 'required|integer',
-        ]);
+        try {
+            Student::create($request->validated());
+            return redirect()->back()->with('success', 'Student added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['email' => 'This email is already registered.'])->withInput();
+        }
 
         // Create new student with auto-verified email
         Student::create([
@@ -64,6 +62,7 @@ class StudentController extends Controller
         return redirect()->route('students.index')->with('success', 'Student added and auto-verified.');
     }
 
+
     // Display the specified student
     public function show(Student $student)
     {
@@ -77,19 +76,8 @@ class StudentController extends Controller
     }
 
     // Update the specified student in the database
-    public function update(Request $request, Student $student)
+    public function update(UpdateStudentRequest $request, Student $student)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:students,email,' . $student->id,
-            'password' => 'nullable|string|min:6|confirmed',
-            'address' => 'required',
-            'role' => 'required|in:student,admin',
-            'age' => 'required',
-        ], [
-            'email.unique' => 'The email has already been taken.'
-        ]);
-
         // Prepare data for update
         $data = $request->except('password');
         if ($request->filled('password')) {
