@@ -72,14 +72,14 @@
                                 </button>
 
                                 <!-- Delete Button -->
-<button class="btn btn-danger btn-sm delete-btn" 
-        data-id="{{ $subject->id }}" 
-        data-name="{{ $subject->name }}" 
-        data-enrolled="{{ $subject->students()->exists() ? 'true' : 'false' }}"
-        data-bs-toggle="modal" 
-        data-bs-target="#deleteModal">
-    Delete
-</button>
+                                <button class="btn btn-danger btn-sm delete-btn" 
+                                        data-id="{{ $subject->id }}" 
+                                        data-name="{{ $subject->name }}" 
+                                        data-enrolled="{{ $subject->students()->exists() ? 'true' : 'false' }}"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#deleteModal">
+                                    Delete
+                                </button>
 
                             </td>
                         </tr>

@@ -16,11 +16,11 @@
     </div>
 
     <!-- Error Message Display -->
-@if ($errors->has('email'))
-    <div id="error-message" class="alert alert-danger text-center fw-bold rounded shadow-sm fade show">
-        ⚠️ {{ $errors->first('email') }}
-    </div>
-@endif
+    @if ($errors->has('email'))
+        <div id="error-message" class="alert alert-danger text-center fw-bold rounded shadow-sm fade show">
+            ⚠️ {{ $errors->first('email') }}
+        </div>
+    @endif
 
     
     <div class="card shadow">
