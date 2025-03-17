@@ -7,6 +7,8 @@ use App\Models\Grade;
 use App\Models\Subject;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateGradeRequest;
+
 
 
 class GradeController extends Controller
