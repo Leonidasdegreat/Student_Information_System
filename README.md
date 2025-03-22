@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -68,3 +69,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 =======
 # Student_Admin
 >>>>>>> de6a2dadb59fc4f2e83d26af38aef9e54d71ead7
+=======
+# Student_Information_System
+This System caters Admin Registration and Student Creation by the admin and it also Do enrollment, grade Assesment
+>>>>>>> c92abc40f3604c3eab44341d2e0db1926545054b
