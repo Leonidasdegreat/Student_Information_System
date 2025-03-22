@@ -49,7 +49,7 @@ class AuthenticatedSessionController extends Controller
     private function redirectUser($user): RedirectResponse
     {
         if ($user->role === 'student') {
-            return redirect()->route('studentviews.index');
+            return redirect()->route('userstudents.index');
         } elseif ($user->role === 'admin') {
             return redirect()->route('students.index');
         }

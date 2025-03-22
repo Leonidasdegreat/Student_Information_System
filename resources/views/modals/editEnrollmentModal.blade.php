@@ -1,7 +1,7 @@
 <div class="modal fade" id="editEnrollmentModal" tabindex="-1" aria-labelledby="editEnrollmentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-info">
                 <h5 class="modal-title" id="editEnrollmentModalLabel">Edit Enrollment</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -34,7 +34,7 @@
                         <input type="date" class="form-control" name="enrollment_date" id="edit_enrollment_date" required>
                     </div>
 
-                    <button type="submit" class="btn btn-warning">Update Enrollment</button>
+                    <button type="submit" class="btn btn-info">Update Enrollment</button>
                 </form>
             </div>
         </div>

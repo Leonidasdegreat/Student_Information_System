@@ -2,12 +2,16 @@
 @section('title', 'Enrollment View')
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Enrollments</h1>
-
-    <!-- Add Enrollment Button (Triggers Modal) -->
-    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addEnrollmentModal">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Enrollments</h1>
+    <button class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#addEnrollmentModal">
         Add Enrollment
     </button>
+</div>
+
+
+    <!-- Add Enrollment Button (Triggers Modal) -->
+    
 
     <div class="card shadow">
         <div class="card-body">
@@ -30,7 +34,7 @@
                             <td>{{ $enrollment->enrollment_date }}</td>
                             <td>
                                 <!-- Edit Button (Triggers Modal) -->
-                                <button class="btn btn-warning btn-sm edit-btn" 
+                                <button class="btn btn-info btn-sm edit-btn" 
                                     data-id="{{ $enrollment->id }}"
                                     data-student="{{ $enrollment->student->id }}"
                                     data-subject="{{ $enrollment->subject->id }}"

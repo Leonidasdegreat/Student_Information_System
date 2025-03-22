@@ -3,7 +3,15 @@
 @section('content')
 
 <div class="container">
-    <h1 class="mb-4">Subjects</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Subjects</h1>
+    <button class="btn btn-info px-4 py-2 fw-bold shadow-sm" 
+            data-bs-toggle="modal" 
+            data-bs-target="#addSubjectModal">
+        <span> &#65122;</span> Add Subject
+    </button>
+</div>
+
 
     <!-- Flash Messages -->
     @if(session('success'))
@@ -34,13 +42,11 @@
     @endif
 
     <!-- Add Subject Button -->
-    <button class="btn btn-primary mb-3 px-4 py-2 fw-bold rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
-        <span> &#65122;</span> Add Subject
-    </button>
+  
 
     <!-- Search Form -->
     <div class="mb-3 position-relative">
-        <input type="text" id="searchInput" class="form-control p-3 rounded shadow-sm" placeholder="🔍 Search for subjects...">
+        <input type="text" id="searchInput" class="form-control p-3 rounded shadow-sm" placeholder="Search for subjects...">
     </div>
 
     <div class="card shadow">
@@ -62,7 +68,7 @@
                             <td>{{ $subject->code }}</td>
                             <td>
                                 <!-- Edit Button -->
-                                <button class="btn btn-warning btn-sm edit-btn" 
+                                <button class="btn btn-info btn-sm edit-btn" 
                                         data-id="{{ $subject->id }}" 
                                         data-name="{{ $subject->name }}" 
                                         data-code="{{ $subject->code }}" 

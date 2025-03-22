@@ -3,16 +3,23 @@
 @section('content')
 
 <div class="container">
-    <h1 class="mb-4">Students</h1>
     
-    <!-- Add Student Button -->
-    <button class="btn btn-primary mb-3 px-4 py-2 fw-bold rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Students</h1>
+    <button class="btn btn-info px-4 py-2 fw-bold shadow-sm" 
+            data-bs-toggle="modal" 
+            data-bs-target="#addStudentModal">
         <span> &#65122;</span> Add Student
     </button>
+</div>
+
+    
+    <!-- Add Student Button -->
+    
 
     <!-- Search Form -->
     <div class="mb-3 position-relative">
-        <input type="text" id="searchInput" class="form-control p-3 rounded shadow-sm" placeholder="🔍 Search for students...">
+        <input type="text" id="searchInput" class="form-control p-3 rounded shadow-sm" placeholder="Search for students...">
     </div>
 
     <!-- Error Message Display -->
@@ -48,7 +55,7 @@
                             <td>{{ $student->age }}</td>
                             <td>
                                 <!-- Edit Button -->
-                                <button class="btn btn-warning btn-sm edit-btn" 
+                                <button class="btn btn-info btn-sm edit-btn" 
                                         data-id="{{ $student->id }}" 
                                         data-name="{{ $student->name }}" 
                                         data-email="{{ $student->email }}" 

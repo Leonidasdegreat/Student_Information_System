@@ -4,7 +4,7 @@
         aria-labelledby="editGradeModalLabel{{ $enrollment->id }}" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-warning text-dark">
+                <div class="modal-header bg-info text-dark">
                     <h5 class="modal-title fw-bold" id="editGradeModalLabel{{ $enrollment->id }}">
                         Edit Grade for {{ $enrollment->student->name }}
                     </h5>
@@ -30,8 +30,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Save Changes</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-info">Save Changes</button>
                     </div>
                 </form>
             </div>

@@ -8,7 +8,7 @@ use App\Models\Student;
 use App\Models\Enrollment;
 use App\Models\Grade;
 
-class StudentViewsController extends Controller
+class UserStudentsController extends Controller
 {
     /**
      * Display the student dashboard.
@@ -24,7 +24,7 @@ class StudentViewsController extends Controller
         ->get();
 
     // Pass the data to the view
-    return view('studentviews.index', compact('student', 'enrollments'));
+    return view('userstudents.index', compact('student', 'enrollments'));
 }
     
 }

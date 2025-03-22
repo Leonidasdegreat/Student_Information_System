@@ -42,9 +42,8 @@
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-radius-lg fixed-start ms-2  bg-white my-2" id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-dark opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand px-4 py-3 m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
-        <img src="../assets/img/logo-ct-dark.png" class="navbar-brand-img" width="26" height="26" alt="main_logo">
-        <span class="ms-1 text-sm text-dark">Bryanskie Creation</span>
+      <a class="navbar-brand px-4 py-3 m-0" target="_blank">
+        <span class="ms-1 text-sm text-dark">{{ Auth::user()->name }}</span>
       </a>
     </div>
     <hr class="horizontal dark mt-0 mb-2">
@@ -57,34 +56,27 @@
         <span class="nav-link-text ms-1">Dashboard</span>
     </a>
 </li>
-      <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('students.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('students.index') }}">
-                <i class="material-symbols-rounded opacity-5">dashboard</i>
-                <span class="nav-link-text ms-1">Students</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('subjects.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('subjects.index') }}">
-                <i class="material-symbols-rounded opacity-5">table_view</i>
-                <span class="nav-link-text ms-1">Subjects</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('enrollments.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('enrollments.index') }}">
-                <i class="material-symbols-rounded opacity-5">table_view</i>
-                <span class="nav-link-text ms-1">Enrollment</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('grades.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('grades.index') }}">
-                <i class="material-symbols-rounded opacity-5">table_view</i>
-                <span class="nav-link-text ms-1">Grade</span>
-            </a>
-        </li>
-
-        
-        
+<li class="nav-item mb-2">
+                <li class="nav-item mb-2">
+                    <a class="nav-link {{ request()->routeIs('students.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('students.index') }}">
+                        <i class="material-symbols-rounded opacity-5">group</i>  Students
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link {{ request()->routeIs('subjects.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('subjects.index') }}">
+                        <i class="material-symbols-rounded opacity-5">menu_book</i>  Subjects
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link {{ request()->routeIs('enrollments.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('enrollments.index') }}">
+                        <i class="material-symbols-rounded opacity-5">how_to_reg</i>  Enrollment
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link {{ request()->routeIs('grades.*') ? 'active bg-gradient-dark text-white' : 'text-dark' }}" href="{{ route('grades.index') }}">
+                        <i class="material-symbols-rounded opacity-5">grading</i>  Grade
+                    </a>
+                </li>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
       <div class="mx-3">
         <li class="nav-item">
@@ -106,7 +98,9 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+            <li class="breadcrumb-item text-sm text-dark {{ Route::is('dashboard') ? 'active' : '' }}" aria-current="page">
+              {{ ucfirst(explode('.', Route::currentRouteName())[0]) }}
+            </li>
           </ol>
         </nav>
       </div>

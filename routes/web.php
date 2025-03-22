@@ -7,7 +7,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\GradeController;
-use App\Http\Controllers\StudentViewsController;
+use App\Http\Controllers\UserStudentsController;
 use App\Http\Controllers\DashboardController;
 
 
@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth:student'])->group(function () {
 
-    Route::get('/studentviews', [StudentViewsController::class, 'index'])->name('studentviews.index');
+    Route::get('/userstudents', [UserStudentsController::class, 'index'])->name('userstudents.index');
    
 });
 
